@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng thông tin sản phẩm</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(4, 165, 165);
+        }
+        form {
+          
+            display: flex;
+            flex-direction: column;
+        }
+        input[type="text"], input[type="number"] {
+            width: 400px;
+            padding: 8px;
+            margin-top: 5px;
+         
+            border-radius: 5px;
+            border: 2px solid black;
+        }
+        button {
+            padding: 10px 15px;
+            
+            cursor: pointer;
+            color: red;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: aqua;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        label{
+            font-weight: bold;
+
+        }
+        th{
+            border: 2px solid white;
+        }
+
+
+    </style>
+</head>
+<body>
+
+
+<form id="productForm">
+    <label for="fullname_customer">Fullname_customer</label>
+    <input type="text" id="fullname_customer" required><br>
+
+    <label for="id_pro">ID_Pro</label>
+    <input type="text" id="id_pro" required><br>
+
+    <label for="name_pro">Name_Pro</label>
+    <input type="text" id="name_pro" required><br>
+
+    <label for="quantity_pro">Quantity_Pro</label>
+    <input type="number" id="quantity_pro" required><br>
+
+    <label for="price_pro">Price_Pro</label>
+    <input type="number" id="price_pro" required><br>
+
+    
+</form>
+<button type="button" onclick="saveProduct()">Save</button>
+    <button type="button" onclick="showProducts()">Show</button>
+    <button type="button" onclick="resetForm()">Reset</button>
+
+<table>
+    <thead>
+        <tr>
+            <th>Auto_Increment</th>
+            <th>Fullname_Customer</th>
+            <th>ID_Pro</th>
+            <th>Name_Pro</th>
+            <th>Quantity_Pro</th>
+            <th>Price_Pro</th>
+            <th>Discount</th>
+            <th>Amount</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody id="productTableBody">
+        <!-- Rows will be appended here -->
+    </tbody>
+</table>
+
+<script>
+    let products = [];
+    let autoIncrement = 1;
+
+    function saveProduct() {
+        // Lấy thông tin từ form
+        const fullname_customer = document.getElementById('fullname_customer').value;
+        const id_pro = document.getElementById('id_pro').value;
+        const name_pro = document.getElementById('name_pro').value;
+        const quantity_pro = parseFloat(document.getElementById('quantity_pro').value);
+        const price_pro = parseFloat(document.getElementById('price_pro').value);
+
+        // Tính toán discount (giả sử discount là 10%)
+        const discount = 0.1 * price_pro * quantity_pro;
+        const amount = price_pro * quantity_pro;
+        const total = amount - discount;
+
+        // Thêm sản phẩm vào danh sách
+        const product = {
+            id: autoIncrement++,
+            fullname_customer,
+            id_pro,
+            name_pro,
+            quantity_pro,
+            price_pro,
+            discount,
+            amount,
+            total
+        };
+        products.push(product);
+
+        // Reset form sau khi lưu
+        resetForm();
+    }
+
+    function showProducts() {
+        const tableBody = document.getElementById('productTableBody');
+        tableBody.innerHTML = ''; // Xóa nội dung hiện tại
+
+        products.forEach(product => {
+            const row = `<tr>
+                <td>${product.id}</td>
+                <td>${product.fullname_customer}</td>
+                <td>${product.id_pro}</td>
+                <td>${product.name_pro}</td>
+                <td>${product.quantity_pro}</td>
+                <td>${product.price_pro}</td>
+                <td>${product.discount.toFixed(2)}</td>
+                <td>${product.amount.toFixed(2)}</td>
+                <td>${product.total.toFixed(2)}</td>
+            </tr>`;
+            tableBody.insertAdjacentHTML('beforeend', row);
+        });
+    }
+
+    function resetForm() {
+        document.getElementById('fullname_customer').value = '';
+        document.getElementById('id_pro').value = '';
+        document.getElementById('name_pro').value = '';
+        document.getElementById('quantity_pro').value = '';
+        document.getElementById('price_pro').value = '';
+    }
+</script>
+
+</body>
+</html>
