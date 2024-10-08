@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi Tiết Sản Phẩm</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div id="roomDetail"></div> <!-- Nơi hiển thị chi tiết cụ thể của phòng -->
+    </div>
+
+    <script>
+        // Lấy ID phòng từ URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const roomId = urlParams.get('id');
+
+        // Lấy dữ liệu phòng từ localStorage
+        const rooms = JSON.parse(localStorage.getItem('listRoom'));
+
+        // Tìm phòng theo ID
+        const room = rooms.find(r => r.id === roomId);
+
+        // Hiển thị thông tin phòng ra HTML
+        const roomDetailDiv = document.getElementById("roomDetail");
+        if (room) {
+            roomDetailDiv.innerHTML = `
+                <h3>${room.name}</h3>
+                <img src="img/${room.img}" class="img-fluid" alt="${room.name}">
+                <p>Giá: ${room.price} USD</p>
+                <p>Mã phòng: ${room.id}</p>
+                <a href="cart.html" class="btn btn-warning">Thêm vào giỏ hàng</a>
+            `;
+        } else {
+            roomDetailDiv.innerHTML = "<p>Phòng không tồn tại!</p>";
+        }
+    </script>
+</body>
+</html>

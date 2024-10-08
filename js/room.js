@@ -1,4 +1,4 @@
-var room = [
+var rooms = [
     {
         id: "RM1",
         name: "Deluxe Room",
@@ -85,5 +85,6 @@ var listLocal = function(){
     }
     Save();
 }
+
 
 listLocal();
